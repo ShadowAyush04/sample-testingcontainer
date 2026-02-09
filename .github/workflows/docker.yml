@@ -12,6 +12,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # --- 🏙️ ANTIGRAVITY OPTIMIZATION GATE START ---
+      - name: Antigravity Optimization Gate
+        env:
+          # 🟢 CHOICE: Set to 'true' to use the AI-fixed version, 'false' for your original
+          USE_OPTIMIZED: 'true' 
+          # Your Azure VM IP
+          OPTIMIZER_SERVER: 'http://40.65.144.231:8000/api'
+        run: |
+          # 1. Download the tool from your repo
+          curl -sSL https://raw.githubusercontent.com/codeayush004/techdemoversion1/main/bin/optimizer-cli.py -o optimizer-cli.py
+          
+          # 2. Apply if permission is granted, else just scan
+          if [ "$USE_OPTIMIZED" = "true" ]; then
+            python3 optimizer-cli.py --file Dockerfile --server "$OPTIMIZER_SERVER" --apply
+          else
+            python3 optimizer-cli.py --file Dockerfile --server "$OPTIMIZER_SERVER" --fail-on CRITICAL
+          fi
+      # --- 🏙️ ANTIGRAVITY OPTIMIZATION GATE END ---
+
       - name: Build Docker image
         run: |
+          # This now builds the AI-fixed version if USE_OPTIMIZED was true!
           docker build -t bad-docker-app .
