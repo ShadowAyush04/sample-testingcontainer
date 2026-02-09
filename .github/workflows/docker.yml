@@ -37,4 +37,3 @@ jobs:
         run: |
           # This builds the AI-fixed version IF USE_OPTIMIZED was true
           docker build -t bad-docker-app .
-          
