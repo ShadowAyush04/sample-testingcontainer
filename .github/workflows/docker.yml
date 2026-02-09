@@ -16,13 +16,13 @@ jobs:
       - name: Antigravity Optimization Gate
         env:
           USE_OPTIMIZED: 'true' 
-          # 🟢 IMPORTANT: Paste your localtunnel URL here (e.g., https://xyz.loca.lt/api)
-          OPTIMIZER_SERVER: 'PASTE_YOUR_TUNNEL_URL_HERE/api'
+          # 🟢 Your active Cloudflare Tunnel
+          OPTIMIZER_SERVER: 'https://reasons-mats-consumption-putting.trycloudflare.com/api'
         run: |
-          # 1. Download the tool (Verified URL for 'main' branch)
+          # 1. Download the tool from the main repo
           curl -sSL https://raw.githubusercontent.com/codeayush004/techdemoversion1/main/container-optimizer/bin/optimizer-cli.py -o optimizer-cli.py
           
-          # 2. Run the logic
+          # 2. Optimization Logic
           if [ "$USE_OPTIMIZED" = "true" ]; then
             echo "✅ Permission Granted: Swapping with Optimized Dockerfile"
             python3 optimizer-cli.py --file Dockerfile --server "$OPTIMIZER_SERVER" --apply
@@ -34,4 +34,5 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t bad-docker-app .
+          # This builds the AI-fixed version if USE_OPTIMIZED was true
+          docker build . -t bad-docker-app
