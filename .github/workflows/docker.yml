@@ -2,7 +2,6 @@ name: Build Docker Image
 
 on:
   push:
-    # Trigger on your master branch
     branches: [ "master" ]
 
 jobs:
@@ -16,14 +15,14 @@ jobs:
       # --- 🏙️ ANTIGRAVITY OPTIMIZATION GATE START ---
       - name: Antigravity Optimization Gate
         env:
-          # 🟢 CHOICE: 'true' to use AI-fixed Dockerfile, 'false' for original
           USE_OPTIMIZED: 'true' 
-          OPTIMIZER_SERVER: 'http://40.65.144.231:8000/api'
+          # 🟢 IMPORTANT: Paste your localtunnel URL here (e.g., https://xyz.loca.lt/api)
+          OPTIMIZER_SERVER: 'PASTE_YOUR_TUNNEL_URL_HERE/api'
         run: |
-          # 1. Download the tool (Including the subfolder prefix)
+          # 1. Download the tool (Verified URL for 'main' branch)
           curl -sSL https://raw.githubusercontent.com/codeayush004/techdemoversion1/main/container-optimizer/bin/optimizer-cli.py -o optimizer-cli.py
           
-          # 2. Permission Logic
+          # 2. Run the logic
           if [ "$USE_OPTIMIZED" = "true" ]; then
             echo "✅ Permission Granted: Swapping with Optimized Dockerfile"
             python3 optimizer-cli.py --file Dockerfile --server "$OPTIMIZER_SERVER" --apply
@@ -35,6 +34,4 @@ jobs:
 
       - name: Build Docker image
         run: |
-          # This builds the AI-fixed version IF USE_OPTIMIZED was true
           docker build -t bad-docker-app .
-          
